@@ -15,9 +15,9 @@ const settings_1 = require("../settings");
 const calculate_match_position_1 = require("./calculate-match-position");
 const connectors_1 = __importDefault(require("./connectors"));
 const themes_1 = __importDefault(require("../themes/themes"));
-const SingleEliminationBracket = ({ matches, matchComponent, currentRound, onMatchClick, onPartyClick, svgWrapper: SvgWrapper = ({ children }) => (0, jsx_runtime_1.jsx)("div", { children: children }), theme = themes_1.default, options: { style: inputStyle } = {
+function SingleEliminationBracket({ matches, matchComponent, currentRound, onMatchClick, onPartyClick, svgWrapper: SvgWrapper = ({ children }) => (0, jsx_runtime_1.jsx)("div", { children: children }), theme = themes_1.default, options: { style: inputStyle } = {
     style: settings_1.defaultStyle,
-}, }) => {
+}, }) {
     var _a, _b;
     const style = Object.assign(Object.assign(Object.assign({}, settings_1.defaultStyle), inputStyle), { roundHeader: Object.assign(Object.assign({}, settings_1.defaultStyle.roundHeader), ((_a = inputStyle === null || inputStyle === void 0 ? void 0 : inputStyle.roundHeader) !== null && _a !== void 0 ? _a : {})), lineInfo: Object.assign(Object.assign({}, settings_1.defaultStyle.lineInfo), ((_b = inputStyle === null || inputStyle === void 0 ? void 0 : inputStyle.lineInfo) !== null && _b !== void 0 ? _b : {})) });
     const { roundHeader, columnWidth, canvasPadding, rowHeight, width } = (0, settings_1.getCalculatedStyles)(style);
@@ -41,9 +41,11 @@ const SingleEliminationBracket = ({ matches, matchComponent, currentRound, onMat
             ? [...generateColumn([final]), [final]].filter(arr => arr.length > 0)
             : [];
     };
-    const columns = generate2DBracketArray(lastGame);
+    const columns = lastGame ? generate2DBracketArray(lastGame) : [];
     const { gameWidth, gameHeight, startPosition } = (0, calculate_svg_dimensions_1.calculateSVGDimensions)(columns[0].length, columns.length, rowHeight, columnWidth, canvasPadding, roundHeader, currentRound);
-    return ((0, jsx_runtime_1.jsx)(styled_components_1.ThemeProvider, Object.assign({ theme: theme }, { children: (0, jsx_runtime_1.jsx)(SvgWrapper, Object.assign({ bracketWidth: gameWidth, bracketHeight: gameHeight, startAt: startPosition }, { children: (0, jsx_runtime_1.jsx)("svg", Object.assign({ height: gameHeight, width: gameWidth, viewBox: `0 0 ${gameWidth} ${gameHeight}` }, { children: (0, jsx_runtime_1.jsx)(match_context_1.MatchContextProvider, { children: (0, jsx_runtime_1.jsx)("g", { children: columns.map((matchesColumn, columnIndex) => matchesColumn.map((match, rowIndex) => {
+    return ((0, jsx_runtime_1.jsx)(styled_components_1.ThemeProvider, Object.assign({ theme: theme }, { children: (0, jsx_runtime_1.jsx)(SvgWrapper, Object.assign({ bracketWidth: gameWidth, bracketHeight: gameHeight, startAt: startPosition }, { children: (0, jsx_runtime_1.jsx)("svg", Object.assign({ height: gameHeight, width: gameWidth, viewBox: `0 0 ${gameWidth} ${gameHeight}` }, { children: (0, jsx_runtime_1.jsx)(match_context_1.MatchContextProvider, { children: columns.map((matchesColumn, columnIndex) => {
+                        return matchesColumn.map((match, rowIndex) => {
+                            var _a, _b;
                             const { x, y } = (0, calculate_match_position_1.calculatePositionOfMatch)(rowIndex, columnIndex, {
                                 canvasPadding,
                                 columnWidth,
@@ -51,7 +53,7 @@ const SingleEliminationBracket = ({ matches, matchComponent, currentRound, onMat
                             });
                             const previousBottomPosition = (rowIndex + 1) * 2 - 1;
                             const { previousTopMatch, previousBottomMatch } = (0, match_functions_1.getPreviousMatches)(columnIndex, columns, previousBottomPosition);
-                            return ((0, jsx_runtime_1.jsxs)("g", { children: [roundHeader.isShown && ((0, jsx_runtime_1.jsx)(round_header_1.default, { x: x, roundHeader: roundHeader, canvasPadding: canvasPadding, width: width, numOfRounds: columns.length, tournamentRoundText: match.tournamentRoundText, columnIndex: columnIndex })), columnIndex !== 0 && ((0, jsx_runtime_1.jsx)(connectors_1.default, Object.assign({}, {
+                            return ((0, jsx_runtime_1.jsxs)("g", { children: [roundHeader && roundHeader.isShown && ((0, jsx_runtime_1.jsx)(round_header_1.default, { x: x, y: 0, roundHeader: roundHeader, canvasPadding: canvasPadding || 0, width: width || 0, numOfRounds: columns.length, tournamentRoundText: match.tournamentRoundText || '', columnIndex: columnIndex })), columnIndex !== 0 && ((0, jsx_runtime_1.jsx)(connectors_1.default, Object.assign({}, {
                                         bracketSnippet: {
                                             currentMatch: match,
                                             previousTopMatch,
@@ -63,10 +65,12 @@ const SingleEliminationBracket = ({ matches, matchComponent, currentRound, onMat
                                         gameWidth,
                                         style,
                                     }))), (0, jsx_runtime_1.jsx)("g", { children: (0, jsx_runtime_1.jsx)(match_wrapper_1.default, { x: x, y: y +
-                                                (roundHeader.isShown
-                                                    ? roundHeader.height + roundHeader.marginBottom
+                                                (roundHeader && roundHeader.isShown
+                                                    ? ((_a = roundHeader.height) !== null && _a !== void 0 ? _a : 0) +
+                                                        ((_b = roundHeader.marginBottom) !== null && _b !== void 0 ? _b : 0)
                                                     : 0), rowIndex: rowIndex, columnIndex: columnIndex, match: match, previousBottomMatch: previousBottomMatch, topText: match.startTime, bottomText: match.name, teams: match.participants, onMatchClick: onMatchClick, onPartyClick: onPartyClick, style: style, matchComponent: matchComponent }) })] }, x + y));
-                        })) }) }) })) })) })));
-};
+                        });
+                    }) }) })) })) })));
+}
 exports.default = SingleEliminationBracket;
 //# sourceMappingURL=single-elim-bracket.js.map

@@ -8,7 +8,7 @@ function RoundHeaders({ numOfRounds, calculatedStyles: { canvasPadding, columnWi
                 columnWidth,
                 rowHeight,
             });
-            return (_jsx("g", { children: roundHeader.isShown && (_jsx(RoundHeader, { x: x, roundHeader: roundHeader, canvasPadding: canvasPadding, width: width, numOfRounds: numOfRounds, tournamentRoundText: (columnIndex + 1).toString(), columnIndex: columnIndex })) }, `round ${x}`));
+            return (_jsx("g", { children: roundHeader && roundHeader.isShown && (_jsx(RoundHeader, { x: x, y: 0, roundHeader: roundHeader, canvasPadding: canvasPadding !== null && canvasPadding !== void 0 ? canvasPadding : 0, width: width !== null && width !== void 0 ? width : 0, numOfRounds: numOfRounds, tournamentRoundText: (columnIndex + 1).toString(), columnIndex: columnIndex })) }, `round ${x}`));
         }) }));
 }
 export default RoundHeaders;

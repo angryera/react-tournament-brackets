@@ -13,7 +13,7 @@ function RoundHeaders({ numOfRounds, calculatedStyles: { canvasPadding, columnWi
                 columnWidth,
                 rowHeight,
             });
-            return ((0, jsx_runtime_1.jsx)("g", { children: roundHeader.isShown && ((0, jsx_runtime_1.jsx)(round_header_1.default, { x: x, roundHeader: roundHeader, canvasPadding: canvasPadding, width: width, numOfRounds: numOfRounds, tournamentRoundText: (columnIndex + 1).toString(), columnIndex: columnIndex })) }, `round ${x}`));
+            return ((0, jsx_runtime_1.jsx)("g", { children: roundHeader && roundHeader.isShown && ((0, jsx_runtime_1.jsx)(round_header_1.default, { x: x, y: 0, roundHeader: roundHeader, canvasPadding: canvasPadding !== null && canvasPadding !== void 0 ? canvasPadding : 0, width: width !== null && width !== void 0 ? width : 0, numOfRounds: numOfRounds, tournamentRoundText: (columnIndex + 1).toString(), columnIndex: columnIndex })) }, `round ${x}`));
         }) }));
 }
 exports.default = RoundHeaders;
