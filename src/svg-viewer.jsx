@@ -24,21 +24,7 @@ const SvgViewer = ({
   }, []);
 
   const lockToBoundaries = v => {
-    const zoomFactor = v.a || v.d;
-    const scaledMaxHeight = v.SVGHeight * zoomFactor - v.viewerHeight;
-    const scaledMaxWidth = v.SVGWidth * zoomFactor - v.viewerWidth;
-
-    const heightRatio = precisionRound(v.viewerHeight / v.SVGHeight, 2);
-    const widthRatio = precisionRound(v.viewerWidth / v.SVGWidth, 2);
-    setScaleFactorMin(Math.max(heightRatio, widthRatio));
-    setValue({
-      ...v,
-      // eslint-disable-next-line no-nested-ternary
-      e: v.e > 0 ? 0 : v.e < 0 - scaledMaxWidth ? 0 - scaledMaxWidth : v.e,
-      // limit up/down panning to within the SVG
-      // eslint-disable-next-line no-nested-ternary
-      f: v.f > 0 ? 0 : v.f < 0 - scaledMaxHeight ? 0 - scaledMaxHeight : v.f,
-    });
+    setValue(v); // Allow free panning and zooming by directly setting the value
   };
 
   return (
